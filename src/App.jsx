@@ -21,22 +21,35 @@ const tabData = [
 
 function App() {
   const [activeTab, setActiveTab] = useState(1);
+  const [isShow, setIsShow] = useState(true);
+  const [count, setCount] = useState(0);
+
+  const handleActiveTab = (id) => {
+    setActiveTab(id);
+    setCount(prev => prev + 1);
+  }
+  
   return (
-    <div className="tab">
-      <div className="tab__header">
-        {
-          tabData.map((item) => {
-            return (
-              <button onClick={() => setActiveTab(item.id)} key={item.id} className={activeTab === item.id ? "active" : ""}>
-                <span>{item.title}</span>
-                <span className="tab-indicator"></span>
-              </button>
-            )
-          })
-        }
-      </div>
-      <div className="tab__content">{tabData[activeTab - 1].content}</div>
-    </div>
+    <>
+      <button onClick={() => setIsShow(!isShow)}>{isShow ? "hide" : "show"}</button>
+      {
+        isShow && <div className="tab">
+          <div className="tab__header">
+            {
+              tabData.map((item) => {
+                return (
+                  <button onClick={() => handleActiveTab(item.id)} key={item.id} className={activeTab === item.id ? "active" : ""}>
+                    <span>{item.title}</span>
+                    <span className="tab-indicator"></span>
+                  </button>
+                )
+              })
+            }
+          </div>
+          <div className="tab__content">{tabData[activeTab - 1].content} - {count}</div>
+        </div>
+      }
+    </>
   )
 }
 
